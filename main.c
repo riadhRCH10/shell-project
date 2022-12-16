@@ -62,11 +62,11 @@ void execArgs(char** parsed)
     pid_t pid = fork(); 
   
     if (pid == -1) {
-        printf("\nFailed forking child..");
+        errorHandling(2);
         return;
     } else if (pid == 0) {
         if (execvp(parsed[0], parsed) < 0) {
-            printf("\nCould not execute command..");
+            errorHandling(0);
         }
         exit(0);
     } else {
@@ -84,12 +84,12 @@ void execArgsPiped(char** parsed, char** parsedpipe)
     pid_t p1, p2;
   
     if (pipe(pipefd) < 0) {
-        printf("\nPipe could not be initialized");
+        errorHandling(3);
         return;
     }
     p1 = fork();
     if (p1 < 0) {
-        printf("\nCould not fork");
+        errorHandling(2);
         return;
     }
   
@@ -101,7 +101,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
         close(pipefd[1]);
   
         if (execvp(parsed[0], parsed) < 0) {
-            printf("\nCould not execute command 1..");
+            errorHandling(0); //command1
             exit(0);
         }
     } else {
@@ -109,7 +109,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
         p2 = fork();
   
         if (p2 < 0) {
-            printf("\nCould not fork");
+            errorHandling(2);
             return;
         }
   
@@ -120,7 +120,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
             dup2(pipefd[0], STDIN_FILENO);
             close(pipefd[0]);
             if (execvp(parsedpipe[0], parsedpipe) < 0) {
-                printf("\nCould not execute command 2..");
+                errorHandling(0); //command2
                 exit(0);
             }
         } else {
@@ -245,6 +245,34 @@ int processString(char* str, char** parsed, char** parsedpipe)
     else
         return 1 + piped;
 }
+
+void errorHandling(int errCode) {
+    /*error codes:
+    0: failed to execute command
+    1: could not find a file
+    2: forking error
+    3: pipe error
+    */
+   switch(errCode) {
+    case 0: {
+        printf("\nCould not execute the inputted command please try again");
+        break;
+    }
+    case 1: {
+        printf("\nno sutch file or directory");
+        break;
+    }
+    case 2: {
+        printf("\nFailed forking child..");
+        break;
+    }
+    case 3: {
+        printf("\nPipe could not be initialized");
+        break;
+    }
+   }
+}
+
   
 int main()
 {
