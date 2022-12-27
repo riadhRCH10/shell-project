@@ -52,10 +52,10 @@ void printDir()
 {
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
-    char* username = getenv("USER");
-    char* desktop = getenv("DESKTOP_SESSION");
+    //char* username = getenv("USER");
+    //char* desktop = getenv("DESKTOP_SESSION");
     //printf("\n");
-    printf("\n%s@%s:%s%%",username,desktop,cwd);
+    printf("\n%s %% ",cwd);
 }
   
 // Function where the system command is executed
@@ -65,11 +65,11 @@ void execArgs(char** parsed)
     pid_t pid = fork(); 
   
     if (pid == -1) {
-        errorHandling(2);
+       // errorHandling(2); 
         return;
     } else if (pid == 0) {
         if (execvp(parsed[0], parsed) < 0) {
-            errorHandling(0);
+          //  errorHandling(0);
         }
         exit(0);
     } else {
@@ -87,12 +87,12 @@ void execArgsPiped(char** parsed, char** parsedpipe)
     pid_t p1, p2;
   
     if (pipe(pipefd) < 0) {
-        errorHandling(3);
+      //  errorHandling(3);
         return;
     }
     p1 = fork();
     if (p1 < 0) {
-        errorHandling(2);
+       // errorHandling(2);
         return;
     }
   
@@ -104,7 +104,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
         close(pipefd[1]);
   
         if (execvp(parsed[0], parsed) < 0) {
-            errorHandling(0); //command1
+          //  errorHandling(0); //command1
             exit(0);
         }
     } else {
@@ -112,7 +112,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
         p2 = fork();
   
         if (p2 < 0) {
-            errorHandling(2);
+          //  errorHandling(2);
             return;
         }
   
@@ -123,7 +123,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
             dup2(pipefd[0], STDIN_FILENO);
             close(pipefd[0]);
             if (execvp(parsedpipe[0], parsedpipe) < 0) {
-                errorHandling(0); //command2
+             //   errorHandling(0); //command2
                 exit(0);
             }
         } else {
