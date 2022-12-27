@@ -28,7 +28,7 @@ void init_shell()
     char* username = getenv("USER");
     printf("\n\n\nUSER is: @%s", username);
     printf("\n");
-    sleep(2);
+    sleep(1);
     clear();
 }
   
@@ -37,7 +37,7 @@ int takeInput(char* str)
 {
     char* buf;
   
-    buf = readline("\n>>> ");
+    buf = readline("");
     if (strlen(buf) != 0) {
         add_history(buf);
         strcpy(str, buf);
@@ -52,7 +52,10 @@ void printDir()
 {
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
-    printf("\nDir: %s", cwd);
+    char* username = getenv("USER");
+    char* desktop = getenv("DESKTOP_SESSION");
+    //printf("\n");
+    printf("\n%s@%s:%s%%",username,desktop,cwd);
 }
   
 // Function where the system command is executed
@@ -155,7 +158,7 @@ int ownCmdHandler(char** parsed)
     char* ListOfOwnCmds[NoOfOwnCmds];
     char* username;
   
-    ListOfOwnCmds[0] = "exit";
+    ListOfOwnCmds[0] = "quit";      //maram
     ListOfOwnCmds[1] = "cd";
     ListOfOwnCmds[2] = "help";
     ListOfOwnCmds[3] = "hello";
@@ -279,7 +282,7 @@ int main()
     char inputString[MAXCOM], *parsedArgs[MAXLIST];
     char* parsedArgsPiped[MAXLIST];
     int execFlag = 0;
-    init_shell();
+    //init_shell();
   
     while (1) {
         // print shell line
