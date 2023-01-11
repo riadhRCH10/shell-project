@@ -8,6 +8,8 @@
 #include<sys/wait.h>
 #include<readline/readline.h>
 #include<readline/history.h>
+
+#include"libs/errorHandler.h"
   
 #define MAXCOM 1000 // max number of letters to be supported
 #define MAXLIST 100 // max number of commands to be supported
@@ -65,11 +67,11 @@ void execArgs(char** parsed)
     pid_t pid = fork(); 
   
     if (pid == -1) {
-       // errorHandling(2); 
+        errorHandling(2, parsed[0]); 
         return;
     } else if (pid == 0) {
         if (execvp(parsed[0], parsed) < 0) {
-          //  errorHandling(0);
+           errorHandling(0, parsed[0]);
         }
         exit(0);
     } else {
@@ -87,12 +89,12 @@ void execArgsPiped(char** parsed, char** parsedpipe)
     pid_t p1, p2;
   
     if (pipe(pipefd) < 0) {
-      //  errorHandling(3);
+      errorHandling(3, parsed[0]);
         return;
     }
     p1 = fork();
     if (p1 < 0) {
-       // errorHandling(2);
+    errorHandling(2, parsed[0]);
         return;
     }
   
@@ -104,7 +106,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
         close(pipefd[1]);
   
         if (execvp(parsed[0], parsed) < 0) {
-          //  errorHandling(0); //command1
+          errorHandling(0, parsed[0]); //command1
             exit(0);
         }
     } else {
@@ -112,7 +114,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
         p2 = fork();
   
         if (p2 < 0) {
-          //  errorHandling(2);
+          errorHandling(2, parsed[0]);
             return;
         }
   
@@ -123,7 +125,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
             dup2(pipefd[0], STDIN_FILENO);
             close(pipefd[0]);
             if (execvp(parsedpipe[0], parsedpipe) < 0) {
-             //   errorHandling(0); //command2
+             errorHandling(0, parsed[0]); //command2
                 exit(0);
             }
         } else {
@@ -133,24 +135,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
         }
     }
 }
-  
-// Help command builtin
-void openHelp()
-{
-    puts("\n***WELCOME TO MY SHELL HELP***"
-        "\nCopyright @ Suprotik Dey"
-        "\n-Use the shell at your own risk..."
-        "\nList of Commands supported:"
-        "\n>cd"
-        "\n>ls"
-        "\n>exit"
-        "\n>all other general commands available in UNIX shell"
-        "\n>pipe handling"
-        "\n>improper space handling");
-  
-    return;
-}
-  
+    
 // Function to execute builtin commands
 int ownCmdHandler(char** parsed)
 {
@@ -162,6 +147,7 @@ int ownCmdHandler(char** parsed)
     ListOfOwnCmds[1] = "cd";
     ListOfOwnCmds[2] = "help";
     ListOfOwnCmds[3] = "hello";
+    //todo history
   
     for (i = 0; i < NoOfOwnCmds; i++) {
         if (strcmp(parsed[0], ListOfOwnCmds[i]) == 0) {
@@ -182,9 +168,8 @@ int ownCmdHandler(char** parsed)
         return 1;
     case 4:
         username = getenv("USER");
-        printf("\nHello %s.\nMind that this is "
-            "not a place to play around."
-            "\nUse help to know more..\n",
+        printf("\nHello %s.\nYou can try any linux commands here."
+            "\nUse help to see the built in commands.\n",
             username);
         return 1;
     default:
@@ -247,33 +232,6 @@ int processString(char* str, char** parsed, char** parsedpipe)
         return 0;
     else
         return 1 + piped;
-}
-
-void errorHandling(int errCode) {
-    /*error codes:
-    0: failed to execute command
-    1: could not find a file
-    2: forking error
-    3: pipe error
-    */
-   switch(errCode) {
-    case 0: {
-        printf("\nCould not execute the inputted command please try again");
-        break;
-    }
-    case 1: {
-        printf("\nno sutch file or directory");
-        break;
-    }
-    case 2: {
-        printf("\nFailed forking child..");
-        break;
-    }
-    case 3: {
-        printf("\nPipe could not be initialized");
-        break;
-    }
-   }
 }
 
   
