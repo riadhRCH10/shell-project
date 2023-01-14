@@ -139,7 +139,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
 // Function to execute builtin commands
 int ownCmdHandler(char** parsed)
 {
-    int NoOfOwnCmds = 4, i, switchOwnArg = 0;
+    int NoOfOwnCmds = 5, i, switchOwnArg = 0;
     char* ListOfOwnCmds[NoOfOwnCmds];
     char* username;
   
@@ -147,7 +147,7 @@ int ownCmdHandler(char** parsed)
     ListOfOwnCmds[1] = "cd";
     ListOfOwnCmds[2] = "help";
     ListOfOwnCmds[3] = "hello";
-    //todo history
+    ListOfOwnCmds[4] = "history";
   
     for (i = 0; i < NoOfOwnCmds; i++) {
         if (strcmp(parsed[0], ListOfOwnCmds[i]) == 0) {
@@ -155,7 +155,7 @@ int ownCmdHandler(char** parsed)
             break;
         }
     }
-  
+
     switch (switchOwnArg) {
     case 1:
         printf("\nGoodbye\n");
@@ -172,6 +172,22 @@ int ownCmdHandler(char** parsed)
             "\nUse help to see the built in commands.\n",
             username);
         return 1;
+    case 5:
+        /* get the state of your history list (offset, length, size) */
+        HISTORY_STATE *myhist = history_get_history_state ();
+
+        /* retrieve the history list */
+        HIST_ENTRY **mylist = history_list ();
+
+        /* output history list */
+        username = getenv("USER");
+        printf ("\nsession history for %s\n\n", username);
+        for (int i = 0; i < myhist->length; i++) { 
+            printf ("%d  %s\n",i+1, mylist[i]->line);
+        }
+        putchar ('\n');
+        return 1;
+
     default:
         break;
     }
@@ -241,6 +257,8 @@ int main()
     char* parsedArgsPiped[MAXLIST];
     int execFlag = 0;
     //init_shell();
+
+    using_history();    /* initialize history */
   
     while (1) {
         // print shell line
@@ -250,8 +268,7 @@ int main()
             continue;
         // process
         execFlag = processString(inputString, parsedArgs, parsedArgsPiped);
-        // execflag returns zero if there is no command
-        // or it is a builtin command,
+        // execflag returns zero if there is no command or it is a builtin command,
         // 1 if it is a simple command
         // 2 if it is including a pipe.
   

@@ -13,13 +13,8 @@ void errorHandling(int errCode ,char command[]) {
     ListOfOwnCmds[3] = "hello";
     ListOfOwnCmds[4] = "history";
 
-
-    difference(command, ListOfOwnCmds[0]);
-
-    //printf("\ndiff btw %s and %s is : %d, you need help!",command, ListOfOwnCmds[0], difference(command, ListOfOwnCmds[0]));
-
     for (i = 0; i < NoOfOwnCmds; i++) {
-        if (difference(command, ListOfOwnCmds[i]) <= 1) { //print help !
+        if (difference(command, ListOfOwnCmds[i]) == 1) { //print help !
             openHelp();
             return;
         }
@@ -89,13 +84,18 @@ void openHelp()
 {
     puts("\n***HELP MENU***"
         "\nList of Commands supported:"
-        "\n>cd"
-        "\n>ls"
-        "\n>all other general commands available in UNIX shell"
-        "\n>hello"
-        "\n>exit"
-        "\n>pipe handling"
-        "\n>improper space handling");
+        "\n>   cd"
+        "\n>   ls"
+        "\n>   any commands available in UNIX shell"
+        "\n"
+        "\n>Built-in commands:"
+        "\n>   hello"
+        "\n>   quit"
+        "\n>   help"
+        "\n>   history"
+        //"\n>    pipe handling"
+        //"\n>    improper space handling"
+        );
   
     return;
 }
