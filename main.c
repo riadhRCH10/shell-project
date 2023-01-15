@@ -137,7 +137,8 @@ void execArgsPiped(char** parsed, char** parsedpipe)
         }
     }
 }
-   int ownCmdHandler(char** parsed)
+
+   /*int ownCmdHandler(char** parsed)
 {
     int NoOfOwnCmds = 4, i, switchOwnArg = 0;
     char* ListOfOwnCmds[NoOfOwnCmds];
@@ -177,7 +178,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
     }
   
     return 0;
-} 
+} */
 
   
 

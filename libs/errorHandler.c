@@ -20,7 +20,7 @@ void errorHandling(int errCode ,char command[]) {
 
     for (i = 0; i < NoOfOwnCmds; i++) {
         if (difference(command, ListOfOwnCmds[i]) <= 1) { //print help !
-            openHelp();
+            openHelpError();
             return;
         }
     }
@@ -33,27 +33,22 @@ void errorHandling(int errCode ,char command[]) {
     */
    switch(errCode) {
     case 0: {
-        printf("\nerrCode: %d:", errCode);
         printf("\nCould not execute the inputted command please try again");
         break;
     }
     case 1: {
-        printf("\nerrCode: %d", errCode);
         printf("\nno sutch file or directory");
         break;
     }
     case 2: {
-        printf("\nerrCode: %d", errCode);
         printf("\nFailed forking child..");
         break;
     }
     case 3: {
-        printf("\nerrCode: %d", errCode);
         printf("\nPipe could not be initialized");
         break;
     }
     default: {
-        printf("\nerrCode: %d", errCode);
         printf("\ncould not resolve the error");
         break;
     }
@@ -85,7 +80,7 @@ int difference(char first[], char second[]) {
     return diff;
 }
 
-void openHelp()
+void openHelpError()
 {
     puts("\n***HELP MENU***"
         "\nList of Commands supported:"

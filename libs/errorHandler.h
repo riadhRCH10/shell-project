@@ -1,4 +1,4 @@
 
 extern void errorHandling(int errCode ,char command[]);
 extern int difference(char first[] ,char second[]);
-extern void openHelp();
+extern void openHelpError();
