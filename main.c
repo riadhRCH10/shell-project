@@ -10,6 +10,7 @@
 #include<readline/history.h>
 
 #include"libs/errorHandler.h"
+#include"libs/executor.h"
   
 #define MAXCOM 1000 // max number of letters to be supported
 #define MAXLIST 100 // max number of commands to be supported
@@ -61,7 +62,7 @@ void printDir()
 }
   
 // Function where the system command is executed
-void execArgs(char** parsed)
+/*void execArgs(char** parsed)
 {
     // Forking a child
     pid_t pid = fork(); 
@@ -135,7 +136,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
         }
     }
 }
-    
+*/   
 // Function to execute builtin commands
 int ownCmdHandler(char** parsed)
 {
