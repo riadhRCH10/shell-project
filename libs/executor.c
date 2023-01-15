@@ -1,8 +1,53 @@
 #include"errorHandler.h"
+#include<stdio.h>
+#include<string.h>
 #include<stdlib.h>
 #include<unistd.h>
 #include<sys/wait.h>
 
+
+// Function to execute builtin commands
+int ownCmdHandler(char** parsed)
+{
+    int NoOfOwnCmds = 4, i, switchOwnArg = 0;
+    char* ListOfOwnCmds[NoOfOwnCmds];
+    char* username;
+  
+    ListOfOwnCmds[0] = "quit";      //maram
+    ListOfOwnCmds[1] = "cd";
+    ListOfOwnCmds[2] = "help";
+    ListOfOwnCmds[3] = "hello";
+    //todo history
+  
+    for (i = 0; i < NoOfOwnCmds; i++) {
+        if (strcmp(parsed[0], ListOfOwnCmds[i]) == 0) {
+            switchOwnArg = i + 1;
+            break;
+        }
+    }
+  
+    switch (switchOwnArg) {
+    case 1:
+        printf("\nGoodbye\n");
+        exit(0);
+    case 2:
+        chdir(parsed[1]);
+        return 1;
+    case 3:
+        openHelp();
+        return 1;
+    case 4:
+        username = getenv("USER");
+        printf("\nHello %s.\nYou can try any linux commands here."
+            "\nUse help to see the built in commands.\n",
+            username);
+        return 1;
+    default:
+        break;
+    }
+  
+    return 0;
+}
 // Function where the system command is executed
 void execArgs(char** parsed)
 {
