@@ -62,7 +62,6 @@ void printDir()
     //printf("\n");
     printf("\n%s %% ",cwd);
 }
-
   
 int main()
 {
@@ -70,6 +69,8 @@ int main()
     char* parsedArgsPiped[MAXLIST];
     int execFlag = 0;
     //init_shell();
+
+    using_history();    /* initialize history */
   
     while (1) {
         // print shell line
@@ -79,8 +80,7 @@ int main()
             continue;
         // process
         execFlag = processString(inputString, parsedArgs, parsedArgsPiped);
-        // execflag returns zero if there is no command
-        // or it is a builtin command,
+        // execflag returns zero if there is no command or it is a builtin command,
         // 1 if it is a simple command
         // 2 if it is including a pipe.
   
