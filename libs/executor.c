@@ -13,7 +13,7 @@ int ownCmdHandler(char** parsed)
     char* ListOfOwnCmds[NoOfOwnCmds];
     char* username;
   
-    ListOfOwnCmds[0] = "quit";      //maram
+    ListOfOwnCmds[0] = "quit";
     ListOfOwnCmds[1] = "cd";
     ListOfOwnCmds[2] = "help";
     ListOfOwnCmds[3] = "hello";
