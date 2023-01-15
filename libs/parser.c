@@ -95,10 +95,10 @@ int ownCmdHandler(char** parsed)
         return 1;
     case 5:
         /* get the state of your history list (offset, length, size) */
-        HISTORY_STATE *myhist = history_get_history_state ();
+        HISTORY_STATE *myhist = history_get_history_state();
 
         /* retrieve the history list */
-        HIST_ENTRY **mylist = history_list ();
+        HIST_ENTRY **mylist = history_list();
 
         /* output history list */
         username = getenv("USER");
