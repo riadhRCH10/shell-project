@@ -44,7 +44,7 @@ int takeInput(char* str)
   
     buf = readline("");
     if (strlen(buf) != 0) {
-        add_history(buf);
+        //add_history(buf);
         strcpy(str, buf);
         return 0;
     } else {
