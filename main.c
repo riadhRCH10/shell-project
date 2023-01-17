@@ -98,11 +98,8 @@ int main()
             execArgsPiped(parsedArgs, parsedArgsPiped);
 
         if (execFlag == 3) {
-            printf("\ncommands to execute: %d", arrsize+1);
-            for (int i = 0; i <= arrsize; i++)
-            {
-                printf("\nmain : command %d : %s",i,arr[i]);
-            }
+            printf("\ncommands to execute: %d\n", arrsize+1);
+            ececArgsMultiple(arr, &arrsize);
         }
         
             

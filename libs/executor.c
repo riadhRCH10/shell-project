@@ -6,6 +6,8 @@
 #include<sys/wait.h>
 
 
+#include"./parser.h" 
+
 // Function where the system command is executed
 void execArgs(char** parsed)
 {
@@ -78,5 +80,18 @@ void execArgsPiped(char** parsed, char** parsedpipe)
             wait(NULL);
             wait(NULL);
         }
+    }
+}
+
+void ececArgsMultiple(char arr[10][100],int *arrsize) {
+    char inputString[1000], *parsedArgs[100];
+
+    for (int i = 0; i <= *arrsize; i++)
+    {
+        printf("\nexecutor: command %d : %s",i,arr[i]);
+        strcpy(inputString, arr[i]);
+        parseSpace(inputString,parsedArgs);
+        printf("\n");
+        execArgs(parsedArgs);
     }
 }
