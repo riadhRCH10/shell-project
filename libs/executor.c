@@ -4,6 +4,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<sys/wait.h>
+#include<readline/history.h>
 
 
 // Function where the system command is executed
@@ -20,7 +21,16 @@ void execArgs(char** parsed)
            errorHandling(0, parsed[0]);
         }
         //exit(0);
-    } else {
+    } else { //comand is executed
+        char command[100] = "";
+        while (*parsed)
+        {
+            strcat(command, parsed[0]);
+            strcat(command, " ");
+            parsed++;
+        }
+        add_history(command);
+        updateStatus();
         // waiting for child to terminate
         wait(NULL); 
         return;

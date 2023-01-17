@@ -2,6 +2,8 @@
 #include<stdio.h>
 #include <string.h>
 
+int attempts = 3;
+
 void errorHandling(int errCode ,char command[]) {
 
     int NoOfOwnCmds = 5, i;
@@ -28,7 +30,13 @@ void errorHandling(int errCode ,char command[]) {
     */
    switch(errCode) {
     case 0: {
-        printf("\nCould not execute the inputted command please try again");
+        attempts--;
+        if (attempts == 0) {
+            printf("\nRead linux documents here:\nhttps://juliend.github.io/linux-cheatsheet/");
+            attempts = 3;
+        } else {
+            printf("\nCould not execute the inputted command please try again");
+        }
         break;
     }
     case 1: {
@@ -93,4 +101,8 @@ void openHelpError()
         );
   
     return;
+}
+
+int updateStatus() {
+    attempts = 3;
 }
