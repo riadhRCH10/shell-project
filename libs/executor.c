@@ -22,12 +22,14 @@ void execArgs(char** parsed)
         }
         //exit(0);
     } else { //comand is executed
-        //while (*parsed)
-        //{
-        //    printf("%s\n", parsed[0]);  
-        //    parsed++;
-        //}
-        add_history(parsed[0]);
+        char command[100] = "";
+        while (*parsed)
+        {
+            strcat(command, parsed[0]);
+            strcat(command, " ");
+            parsed++;
+        }
+        add_history(command);
         updateStatus();
         // waiting for child to terminate
         wait(NULL); 
