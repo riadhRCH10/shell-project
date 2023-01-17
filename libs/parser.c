@@ -42,12 +42,12 @@ void parseSpace(char* str, char** parsed)
     }
 }
 
-int parseMultipleOR(char* str, char arr[10][100],int *arrsize) {
+int parseMultiple(char* str, char arr[10][100],int *arrsize, char delimiter[1]) {
 
     int i = 0;
-    while (strstr(str, "||") != NULL && i<10)
+    while (strstr(str, delimiter) != NULL && i<10)
     {
-        strcpy(arr[i], strsep(&str, "||"));
+        strcpy(arr[i], strsep(&str, delimiter));
         i++;
         str++;
     }
@@ -132,13 +132,19 @@ int ownCmdHandler(char** parsed)
 
 int processString(char* str, char** parsed, char** parsedpipe,char arr[10][100],int *arrsize)
 {
-    //for (int i = 0; i < 10; i++)
-    //{
-    //    printf("\ncommand %d : %s",i,arr[i]);
-    //}
-    
+
     if (strstr(str, "||") != NULL) {
-        parseMultipleOR(str, arr, arrsize);
+        parseMultiple(str, arr, arrsize, "||");
+        return 3;
+    }
+
+    if (strstr(str, "&&") != NULL) {
+        parseMultiple(str, arr, arrsize, "&&");
+        return 3;
+    }
+
+    if (strstr(str, ";") != NULL) {
+        parseMultiple(str, arr, arrsize, ";");
         return 3;
     }
 
