@@ -16,6 +16,7 @@
 
 #define MAXCOM 1000 // max number of letters to be supported
 #define MAXLIST 100 // max number of commands to be supported
+#define MAXCOMMANDS 10 // max commandes composé
   
 // Clearing the shell using escape sequences
 #define clear() printf("\033[H\033[J")
@@ -68,6 +69,11 @@ int main()
     char inputString[MAXCOM], *parsedArgs[MAXLIST];
     char* parsedArgsPiped[MAXLIST];
     int execFlag = 0;
+
+    char arr[MAXCOMMANDS][MAXLIST];
+    int arrsize = 0;
+    //= {"riadh","ls -l"}
+
     //init_shell();
 
     using_history();    /* initialize history */
@@ -79,7 +85,7 @@ int main()
         if (takeInput(inputString))
             continue;
         // process
-        execFlag = processString(inputString, parsedArgs, parsedArgsPiped);
+        execFlag = processString(inputString, parsedArgs, parsedArgsPiped, arr, &arrsize);
         // execflag returns zero if there is no command or it is a builtin command,
         // 1 if it is a simple command
         // 2 if it is including a pipe.
@@ -90,6 +96,16 @@ int main()
   
         if (execFlag == 2)
             execArgsPiped(parsedArgs, parsedArgsPiped);
+
+        if (execFlag == 3) {
+            printf("\ncommands to execute: %d", arrsize+1);
+            for (int i = 0; i <= arrsize; i++)
+            {
+                printf("\nmain : command %d : %s",i,arr[i]);
+            }
+        }
+        
+            
     }
     return 0;
 }
