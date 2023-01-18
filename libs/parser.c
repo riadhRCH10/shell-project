@@ -130,21 +130,24 @@ int ownCmdHandler(char** parsed)
     return 0;
 }
 
-int processString(char* str, char** parsed, char** parsedpipe,char arr[10][100],int *arrsize)
+int processString(char* str, char** parsed, char** parsedpipe,char arr[10][100],int *arrsize, char delimiter[1])
 {
 
     if (strstr(str, "||") != NULL) {
         parseMultiple(str, arr, arrsize, "||");
+        strcpy(delimiter,"||");
         return 3;
     }
 
     if (strstr(str, "&&") != NULL) {
         parseMultiple(str, arr, arrsize, "&&");
+        strcpy(delimiter,"&&");
         return 3;
     }
 
     if (strstr(str, ";") != NULL) {
         parseMultiple(str, arr, arrsize, ";");
+        strcpy(delimiter,";");
         return 3;
     }
 

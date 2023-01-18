@@ -72,6 +72,7 @@ int main()
 
     char arr[MAXCOMMANDS][MAXLIST];
     int arrsize = 0;
+    char delimiter[1];
     //= {"riadh","ls -l"}
 
     //init_shell();
@@ -85,7 +86,7 @@ int main()
         if (takeInput(inputString))
             continue;
         // process
-        execFlag = processString(inputString, parsedArgs, parsedArgsPiped, arr, &arrsize);
+        execFlag = processString(inputString, parsedArgs, parsedArgsPiped, arr, &arrsize, delimiter);
         // execflag returns zero if there is no command or it is a builtin command,
         // 1 if it is a simple command
         // 2 if it is including a pipe.
@@ -98,7 +99,7 @@ int main()
             execArgsPiped(parsedArgs, parsedArgsPiped);
 
         if (execFlag == 3) {
-            printf("\ncommands to execute: %d\n", arrsize+1);
+            printf("\ncommands to execute: %d, delimiter is: %s\n", arrsize+1, delimiter);
             ececArgsMultiple(arr, &arrsize);
         }
         
