@@ -28,23 +28,23 @@ void errorHandling(int errCode ,char command[]) {
     */
    switch(errCode) {
     case 0: {
-        printf("\nCould not execute the inputted command please try again");
+        printf("Could not execute the inputted command please try again\n");
         break;
     }
     case 1: {
-        printf("\nno sutch file or directory");
+        printf("no sutch file or directory\n");
         break;
     }
     case 2: {
-        printf("\nFailed forking child..");
+        printf("Failed forking child..\n");
         break;
     }
     case 3: {
-        printf("\nPipe could not be initialized");
+        printf("Pipe could not be initialized\n");
         break;
     }
     default: {
-        printf("\ncould not resolve the error");
+        printf("could not resolve the error\n");
         break;
     }
    }

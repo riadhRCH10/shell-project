@@ -99,8 +99,7 @@ int main()
             execArgsPiped(parsedArgs, parsedArgsPiped);
 
         if (execFlag == 3) {
-            printf("\ncommands to execute: %d, delimiter is: %s\n", arrsize+1, delimiter);
-            ececArgsMultiple(arr, &arrsize);
+            ececArgsMultiple(arr, &arrsize, delimiter);
         }
         
             
