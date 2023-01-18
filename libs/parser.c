@@ -42,6 +42,20 @@ void parseSpace(char* str, char** parsed)
     }
 }
 
+int parseMultiple(char* str, char arr[10][100],int *arrsize, char delimiter[1]) {
+
+    int i = 0;
+    while (strstr(str, delimiter) != NULL && i<10)
+    {
+        strcpy(arr[i], strsep(&str, delimiter));
+        i++;
+        str++;
+    }
+    strcpy(arr[i], str);
+    *arrsize = i;
+    
+}
+
 void openHelp()
 {
     puts("\n***HELP MENU***"
@@ -116,9 +130,27 @@ int ownCmdHandler(char** parsed)
     return 0;
 }
 
-int processString(char* str, char** parsed, char** parsedpipe)
+int processString(char* str, char** parsed, char** parsedpipe,char arr[10][100],int *arrsize, char delimiter[1])
 {
-  
+
+    if (strstr(str, "||") != NULL) {
+        parseMultiple(str, arr, arrsize, "||");
+        strcpy(delimiter,"||");
+        return 3;
+    }
+
+    if (strstr(str, "&&") != NULL) {
+        parseMultiple(str, arr, arrsize, "&&");
+        strcpy(delimiter,"&&");
+        return 3;
+    }
+
+    if (strstr(str, ";") != NULL) {
+        parseMultiple(str, arr, arrsize, ";");
+        strcpy(delimiter,";");
+        return 3;
+    }
+
     char* strpiped[2];
     int piped = 0;
   

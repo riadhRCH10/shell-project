@@ -7,18 +7,21 @@
 #include<readline/history.h>
 
 
+#include"./parser.h" 
+
 // Function where the system command is executed
-void execArgs(char** parsed)
+int execArgs(char** parsed)
 {
     // Forking a child
     pid_t pid = fork(); 
   
     if (pid == -1) {
         errorHandling(2, parsed[0]); 
-        return;
+        return 1;
     } else if (pid == 0) {
         if (execvp(parsed[0], parsed) < 0) {
            errorHandling(0, parsed[0]);
+           return 1;
         }
         //exit(0);
     } else { //comand is executed
@@ -33,7 +36,7 @@ void execArgs(char** parsed)
         updateStatus();
         // waiting for child to terminate
         wait(NULL); 
-        return;
+        return 0;
     }
 }
 // Function where the piped system commands is executed
@@ -89,4 +92,53 @@ void execArgsPiped(char** parsed, char** parsedpipe)
             wait(NULL);
         }
     }
+}
+
+void ececArgsMultiple(char arr[10][100],int *arrsize, char delimiter[1]) {
+    char inputString[1000], *parsedArgs[100];
+
+    if (strcmp(delimiter, "||") == 0) 
+    {
+        int i = 0;
+        int executed = 1;
+        while (i <= *arrsize && executed == 1)
+        {
+            printf("\nexecutor: command %d : %s",i+1,arr[i]);
+            strcpy(inputString, arr[i]);
+            parseSpace(inputString,parsedArgs);
+            printf("\n");
+            executed = execArgs(parsedArgs);
+            i++;
+        }
+
+    } else if (strcmp(delimiter, "&&") == 0) 
+    {
+        printf("\ncommands to execute: %d\n", *arrsize+1);
+        int i = 0;
+        int executed = 0;
+        while (i <= *arrsize && executed == 0)
+        {
+            printf("\nexecutor: command %d : %s",i+1,arr[i]);
+            strcpy(inputString, arr[i]);
+            parseSpace(inputString,parsedArgs);
+            printf("\n");
+            executed = execArgs(parsedArgs);
+            if (executed != 0 && i<*arrsize )  {
+                printf("\ncommand %d failed, cannot continue..\n",i+1);
+            }
+            i++;
+        }
+
+    } else {
+        printf("\ncommands to execute: %d\n", *arrsize+1);
+        for (int i = 0; i <= *arrsize; i++)
+        {
+            printf("\nexecutor: command %d : %s",i+1,arr[i]);
+            strcpy(inputString, arr[i]);
+            parseSpace(inputString,parsedArgs);
+            printf("\n");
+            execArgs(parsedArgs);
+        }
+    }
+    
 }
