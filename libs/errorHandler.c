@@ -16,18 +16,11 @@ void errorHandling(int errCode ,char command[]) {
     ListOfOwnCmds[4] = "history";
 
     for (i = 0; i < NoOfOwnCmds; i++) {
-        if (difference(command, ListOfOwnCmds[i]) == 1) { //print help !
-            openHelpError();
+        if (difference(command, ListOfOwnCmds[i]) == 1) {
             return;
         }
     }
     
-    /*error codes:
-    0: failed to execute command
-    1: could not find a file
-    2: forking error
-    3: pipe error
-    */
    switch(errCode) {
     case 0: {
         attempts--;
@@ -96,8 +89,6 @@ void openHelpError()
         "\n>   quit"
         "\n>   help"
         "\n>   history"
-        //"\n>    pipe handling"
-        //"\n>    improper space handling"
         );
   
     return;

@@ -1,9 +1,9 @@
 
-TARGET=main #target file name
+TARGET=main
  
 all:
-	gcc main.c libs/errorHandler.c libs/parser.c libs/executor.c -L/usr/include -lreadline -o $(TARGET)
+	sudo gcc main.c libs/errorHandler.c libs/parser.c libs/executor.c libs/init-shell.c -L/usr/include -lreadline -o /bin/$(TARGET)
 	./$(TARGET)
 	
 clean:
-	rm $(TARGET)
+	sudo rm /bin/$(TARGET)

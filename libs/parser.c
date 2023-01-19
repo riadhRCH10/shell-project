@@ -8,9 +8,8 @@
 #include<readline/readline.h>
 #include<readline/history.h>
 
-#define MAXLIST 100 // max number of commands to be supported
+#define MAXLIST 100
 
-// function for parsing command words
 void parseSpace(char* str, char** parsed)
 {
     int i;
@@ -22,23 +21,6 @@ void parseSpace(char* str, char** parsed)
             break;
         if (strlen(parsed[i]) == 0)
             i--;
-    }
-}
-  
-// function for finding pipe
-  int parsePipe(char* str, char** strpiped)
-{
-    int i;
-    for (i = 0; i < 2; i++) {
-        strpiped[i] = strsep(&str, "|");
-        if (strpiped[i] == NULL)
-            break;
-    }
-  
-    if (strpiped[1] == NULL)
-        return 0; // returns zero if no pipe is found.
-    else {
-        return 1;
     }
 }
 
@@ -62,19 +44,21 @@ void openHelp()
 {
     puts("\n***HELP MENU***"
         "\nList of Commands supported:"
-        "\n>cd"
-        "\n>ls"
-        "\n>all other general commands available in UNIX shell"
-        "\n>hello"
-        "\n>exit"
-        "\n>pipe handling"
-        "\n>improper space handling");
+        "\n>   cd"
+        "\n>   ls"
+        "\n>   any commands available in UNIX shell"
+        "\n"
+        "\n>Built-in commands:"
+        "\n>   hello"
+        "\n>   quit"
+        "\n>   help"
+        "\n>   history"
+        );
   
     return;
 }
 
-// Function to execute builtin commands
-int ownCmdHandler(char** parsed)
+int handleBuiltInCmd(char** parsed)
 {
     int NoOfOwnCmds = 5, i, switchOwnArg = 0;
     char* ListOfOwnCmds[NoOfOwnCmds];
@@ -110,13 +94,11 @@ int ownCmdHandler(char** parsed)
             username);
         return 1;
     case 5:
-        /* get the state of your history list (offset, length, size) */
+
         HISTORY_STATE *myhist = history_get_history_state();
 
-        /* retrieve the history list */
         HIST_ENTRY **mylist = history_list();
 
-        /* output history list */
         username = getenv("USER");
         printf ("\nsession history for %s\n\n", username);
         for (int i = 0; i < myhist->length; i++) { 
@@ -132,7 +114,7 @@ int ownCmdHandler(char** parsed)
     return 0;
 }
 
-int processString(char* str, char** parsed, char** parsedpipe,char arr[10][100],int *arrsize, char delimiter[1])
+int processString(char* str, char** parsed, char arr[10][100],int *arrsize, char delimiter[1])
 {
     char inputted[1000];
     strcpy(inputted, str);
@@ -140,43 +122,32 @@ int processString(char* str, char** parsed, char** parsedpipe,char arr[10][100],
     if (strstr(str, "||") != NULL) {
         parseMultiple(str, arr, arrsize, "||");
         strcpy(delimiter,"||");
-        return 3;
+        return 2;
     }
 
     if (strstr(str, "&&") != NULL) {
         parseMultiple(str, arr, arrsize, "&&");
         strcpy(delimiter,"&&");
-        return 3;
+        return 2;
     }
 
     if (strstr(str, ";") != NULL) {
         parseMultiple(str, arr, arrsize, ";");
         strcpy(delimiter,";");
-        return 3;
+        return 2;
     }
 
     if (access(str, F_OK) == 0) {
-        return 4;
+        return 3;
     }
 
-    char* strpiped[2];
-    int piped = 0;
+    parseSpace(str, parsed);
+    
   
-    piped = parsePipe(str, strpiped);
-  
-    if (piped) {
-        parseSpace(strpiped[0], parsed);
-        parseSpace(strpiped[1], parsedpipe);
-  
-    } else {
-  
-        parseSpace(str, parsed);
-    }
-  
-    if (ownCmdHandler(parsed)) {
+    if (handleBuiltInCmd(parsed)) {
         add_history(inputted);
         return 0;
+    } else {
+        return 1;
     }
-    else
-        return 1 + piped;
 }

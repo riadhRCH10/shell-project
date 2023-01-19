@@ -9,58 +9,16 @@
 
 #include"libs/errorHandler.h"
 #include"libs/executor.h"
-  
+#include"libs/init-shell.h"  
 #include"libs/parser.h"
 
-#define MAXCOM 1000 // max number of letters to be supported
-#define MAXLIST 100 // max number of commands to be supported
-#define MAXCOMMANDS 10 // max commandes composé
-  
-// Clearing the shell using escape sequences
-#define clear() printf("\033[H\033[J")
-  
-// Greeting shell during startup
-void init_shell()
-{
-    clear();
-    printf("\n\n\n\t***************WELCOME TO OUR SHELL******************");
-    printf("\n\n\tMade by: Hatem Dridi, Maram Djebbi and Riadh Chercheri");
-    printf("\n\n\n\t******************************************************");
-    printf("\n");
-    sleep(2);
-    clear();
-}
-  
-// Function to take input
-int takeInput(char* str)
-{
-    char* buf;
-  
-    buf = readline("");
-    if (strlen(buf) != 0) {
-        //add_history(buf);
-        strcpy(str, buf);
-        return 0;
-    } else {
-        return 1;
-    }
-}
-  
-// Function to print Current Directory.
-void printDir()
-{
-    char cwd[1024];
-    getcwd(cwd, sizeof(cwd));
-    //char* username = getenv("USER");
-    //char* desktop = getenv("DESKTOP_SESSION");
-    //printf("\n");
-    printf("\n%s %% ",cwd);
-}
+#define MAXCOM 1000
+#define MAXLIST 100
+#define MAXCOMMANDS 10 
   
 int main()
 {
     char inputString[MAXCOM], *parsedArgs[MAXLIST];
-    char* parsedArgsPiped[MAXLIST];
     int execFlag = 0;
 
     char arr[MAXCOMMANDS][MAXLIST];
@@ -69,40 +27,30 @@ int main()
     
     char history_entry[MAXCOM];
 
-    init_shell();
+    shell();
 
-    using_history();    /* initialize history */
+    using_history();
   
     while (1) {
-        // print shell line
-        printDir();
-        // take input
+        printDirectory();
         if (takeInput(inputString))
             continue;
 
         strcpy(history_entry, inputString);
-        // process
-        execFlag = processString(inputString, parsedArgs, parsedArgsPiped, arr, &arrsize, delimiter);
-        // execflag returns zero if there is no command or it is a builtin command,
-        // 1 if it is a simple command
-        // 2 if it is including a pipe.
-  
-        // execute
+        execFlag = processString(inputString, parsedArgs, arr, &arrsize, delimiter);
+
         if (execFlag == 1)
-            if (execArgs(parsedArgs) == 0) {
+            if (executeSimple(parsedArgs) == 0) {
                 add_history(history_entry);
             }
-  
-        if (execFlag == 2)
-            execArgsPiped(parsedArgs, parsedArgsPiped);
 
-        if (execFlag == 3) {
-            if (execArgsMultiple(arr, &arrsize, delimiter) == 0) {
+        if (execFlag == 2) {
+            if (executeMultiple(arr, &arrsize, delimiter) == 0) {
                 add_history(history_entry);
             }
         }
 
-        if (execFlag == 4) {
+        if (execFlag == 3) {
             batchMode(inputString);
         }
         
