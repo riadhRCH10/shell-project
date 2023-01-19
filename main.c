@@ -23,16 +23,11 @@
 void init_shell()
 {
     clear();
-    printf("\n\n\n\n******************"
-        "************************");
-    printf("\n\n\n\t****MY SHELL****");
-    printf("\n\n\t-USE AT YOUR OWN RISK-");
-    printf("\n\n\n\n*******************"
-        "***********************");
-    char* username = getenv("USER");
-    printf("\n\n\nUSER is: @%s", username);
+    printf("\n\n\n\t***************WELCOME TO OUR SHELL******************");
+    printf("\n\n\tMade by: Hatem Dridi, Maram Djebbi and Riadh Chercheri");
+    printf("\n\n\n\t******************************************************");
     printf("\n");
-    sleep(5);
+    sleep(2);
     clear();
 }
   
@@ -74,7 +69,7 @@ int main()
     
     char history_entry[MAXCOM];
 
-    //init_shell();
+    init_shell();
 
     using_history();    /* initialize history */
   
