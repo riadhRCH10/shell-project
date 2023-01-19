@@ -78,7 +78,7 @@ int ownCmdHandler(char** parsed)
     char* ListOfOwnCmds[NoOfOwnCmds];
     char* username;
   
-    ListOfOwnCmds[0] = "quit";      //maram
+    ListOfOwnCmds[0] = "quit";
     ListOfOwnCmds[1] = "cd";
     ListOfOwnCmds[2] = "help";
     ListOfOwnCmds[3] = "hello";
@@ -132,6 +132,8 @@ int ownCmdHandler(char** parsed)
 
 int processString(char* str, char** parsed, char** parsedpipe,char arr[10][100],int *arrsize, char delimiter[1])
 {
+    char inputted[1000];
+    strcpy(inputted, str);
 
     if (strstr(str, "||") != NULL) {
         parseMultiple(str, arr, arrsize, "||");
@@ -169,8 +171,10 @@ int processString(char* str, char** parsed, char** parsedpipe,char arr[10][100],
         parseSpace(str, parsed);
     }
   
-    if (ownCmdHandler(parsed))
+    if (ownCmdHandler(parsed)) {
+        add_history(inputted);
         return 0;
+    }
     else
         return 1 + piped;
 }

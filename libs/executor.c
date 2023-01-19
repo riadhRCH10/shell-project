@@ -107,7 +107,11 @@ int execArgsMultiple(char arr[10][100],int *arrsize, char delimiter[1]) {
             strcpy(inputString, arr[i]);
             parseSpace(inputString,parsedArgs);
             printf("\n");
-            executed = execArgs(parsedArgs);
+            if (ownCmdHandler(parsedArgs)) {
+                executed = 0; 
+            }else {
+                executed = execArgs(parsedArgs);
+            }  
             i++;
         }
 
@@ -122,7 +126,12 @@ int execArgsMultiple(char arr[10][100],int *arrsize, char delimiter[1]) {
             strcpy(inputString, arr[i]);
             parseSpace(inputString,parsedArgs);
             printf("\n");
-            executed = execArgs(parsedArgs);
+            if (ownCmdHandler(parsedArgs)) {
+                executed = 0;
+            } else {
+                executed = execArgs(parsedArgs);
+            }
+            
             if (executed != 0 && i<*arrsize )  {
                 printf("\ncommand %d failed, cannot continue..\n",i+1);
             }
@@ -137,7 +146,11 @@ int execArgsMultiple(char arr[10][100],int *arrsize, char delimiter[1]) {
             strcpy(inputString, arr[i]);
             parseSpace(inputString,parsedArgs);
             printf("\n");
-            execArgs(parsedArgs);
+            if (ownCmdHandler(parsedArgs)) {
+               
+            } else {
+                execArgs(parsedArgs);
+            }
         }
     }
     return 0;
