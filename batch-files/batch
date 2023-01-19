@@ -1,15 +1,3 @@
-hello
 pwd
-echo test
-cd ..
-cd custom-bash
-history
-
-lsss || ls -l || pwd
-ls -l && echo hello && cd .. && cd custom-bash && pwd && lssss && ls -l
-lsss ; ls -l ; pwd ; ls ; echo test
-history
-
-quit
-
-
+ls -ls
+echo user 
