@@ -53,8 +53,10 @@ int main()
         if (execFlag == 3) {
             batchMode(inputString);
         }
-        
-            
+
+        if (execFlag == 4) {
+            printf("This version of shell does not support redirection or pipe.");
+        }     
     }
     return 0;
 }
