@@ -32,7 +32,7 @@ int execArgs(char** parsed)
             strcat(command, " ");
             parsed++;
         }
-        add_history(command);
+        //add_history(command);
         updateStatus();
         // waiting for child to terminate
         wait(NULL); 
@@ -94,7 +94,7 @@ void execArgsPiped(char** parsed, char** parsedpipe)
     }
 }
 
-void ececArgsMultiple(char arr[10][100],int *arrsize, char delimiter[1]) {
+int execArgsMultiple(char arr[10][100],int *arrsize, char delimiter[1]) {
     char inputString[1000], *parsedArgs[100];
 
     if (strcmp(delimiter, "||") == 0) 
@@ -140,5 +140,5 @@ void ececArgsMultiple(char arr[10][100],int *arrsize, char delimiter[1]) {
             execArgs(parsedArgs);
         }
     }
-    
+    return 0;
 }

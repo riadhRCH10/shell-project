@@ -73,7 +73,8 @@ int main()
     char arr[MAXCOMMANDS][MAXLIST];
     int arrsize = 0;
     char delimiter[1];
-    //= {"riadh","ls -l"}
+    
+    char history_entry[MAXCOM];
 
     //init_shell();
 
@@ -85,6 +86,8 @@ int main()
         // take input
         if (takeInput(inputString))
             continue;
+
+        strcpy(history_entry, inputString);
         // process
         execFlag = processString(inputString, parsedArgs, parsedArgsPiped, arr, &arrsize, delimiter);
         // execflag returns zero if there is no command or it is a builtin command,
@@ -93,13 +96,18 @@ int main()
   
         // execute
         if (execFlag == 1)
-            execArgs(parsedArgs);
+            if (execArgs(parsedArgs) == 0) {
+                add_history(history_entry);
+            }
   
         if (execFlag == 2)
             execArgsPiped(parsedArgs, parsedArgsPiped);
 
         if (execFlag == 3) {
-            ececArgsMultiple(arr, &arrsize, delimiter);
+            if (execArgsMultiple(arr, &arrsize, delimiter) == 0) {
+                printf("adding %s to hostory", history_entry);
+                add_history(history_entry);
+            }
         }
         
             
