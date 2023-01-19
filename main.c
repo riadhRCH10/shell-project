@@ -105,7 +105,6 @@ int main()
 
         if (execFlag == 3) {
             if (execArgsMultiple(arr, &arrsize, delimiter) == 0) {
-                printf("adding %s to hostory", history_entry);
                 add_history(history_entry);
             }
         }
