@@ -148,6 +148,10 @@ int processString(char* str, char** parsed, char arr[10][100],int *arrsize, char
         return 0;
     } 
 
+    if (strstr(str, ">") || strstr(str, "<") || strstr(str, "|")) {
+        return 4;
+    } 
+
     parseSpace(str, parsed);
     
   
