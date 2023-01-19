@@ -1,0 +1,7 @@
+pwd
+ls -l
+cd libs
+echo hatem
+hello
+quit
+

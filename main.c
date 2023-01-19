@@ -1,5 +1,3 @@
-
-// C Program to design a shell in Linux
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -12,7 +10,7 @@
 #include"libs/errorHandler.h"
 #include"libs/executor.h"
   
-#include"libs/parser.h" 
+#include"libs/parser.h"
 
 #define MAXCOM 1000 // max number of letters to be supported
 #define MAXLIST 100 // max number of commands to be supported
@@ -92,14 +90,19 @@ int main()
         // 2 if it is including a pipe.
   
         // execute
-        if (execFlag == 1)
+        if (execFlag == 1){
             execArgs(parsedArgs);
+        }
   
         if (execFlag == 2)
             execArgsPiped(parsedArgs, parsedArgsPiped);
 
         if (execFlag == 3) {
             ececArgsMultiple(arr, &arrsize, delimiter);
+        }
+
+        if (execFlag == 4) {
+            batchMode(inputString);
         }
         
             

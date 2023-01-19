@@ -5,10 +5,10 @@
 #include<unistd.h>
 #include<sys/wait.h>
 #include<readline/history.h>
-
-
 #include"./parser.h" 
-
+#define MAXCOM 1000 // max number of letters to be supported
+#define MAXLIST 100 // max number of commands to be supported
+#define MAXCOMMANDS 10 // max commandes composé
 // Function where the system command is executed
 int execArgs(char** parsed)
 {
@@ -141,4 +141,37 @@ void ececArgsMultiple(char arr[10][100],int *arrsize, char delimiter[1]) {
         }
     }
     
+}
+
+
+void batchMode(char str[1000]) {
+    char inputString[MAXCOM], *parsedArgs[1000];
+    char* parsedArgsPiped[MAXLIST];
+    int execFlag0 = 0;
+    char *args; 
+    char arr[MAXCOMMANDS][MAXLIST];
+    int arrsize = 0;
+    char delimiter[1];
+    FILE *fp = fopen(str, "r");
+    
+    if (fp!=NULL){
+        char fline[200];
+        char **fargs;
+        while(fgets(fline, sizeof(fline), fp) != NULL){
+            strtok(fline,"\n\r");
+            execFlag0 = processString(fline, parsedArgs, parsedArgsPiped, arr, &arrsize, delimiter);
+            if (execFlag0 == 1) {
+            //printf("%s",fline);
+            execArgs(parsedArgs);
+            }
+
+            if (execFlag0 == 3) {
+                ececArgsMultiple(arr, &arrsize, delimiter);
+            }         	
+	    }
+    if (ftell(fp) == 0) {
+        printf("File is empty!");
+    }
+    fclose(fp); 
+    }  
 }
