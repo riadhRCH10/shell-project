@@ -8,6 +8,8 @@
 #include<readline/readline.h>
 #include<readline/history.h>
 
+#include"./errorHandler.h"
+
 #define MAXLIST 100
 
 void parseSpace(char* str, char** parsed)
@@ -140,6 +142,11 @@ int processString(char* str, char** parsed, char arr[10][100],int *arrsize, char
     if (access(str, F_OK) == 0) {
         return 3;
     }
+
+    if (strstr(str, "./") || strstr(str, "/")) {
+        errorHandling(4,str);
+        return 0;
+    } 
 
     parseSpace(str, parsed);
     

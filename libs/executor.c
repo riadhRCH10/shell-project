@@ -123,7 +123,7 @@ void batchMode(char str[1000]) {
 
 	    }
     if (ftell(fp) == 0) {
-        printf("File is empty!");
+        errorHandling(3,str);
     }
     fclose(fp); 
     }  

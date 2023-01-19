@@ -16,7 +16,6 @@ void shell()
     printf("\n\n\n\t******************************************************");
     printf("\n");
     sleep(1);
-    //clear();
 }
   
 int takeInput(char* str)

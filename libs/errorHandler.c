@@ -33,7 +33,7 @@ void errorHandling(int errCode ,char command[]) {
         break;
     }
     case 1: {
-        printf("no sutch file or directory\n");
+        printf("No sutch file or directory\n");
         break;
     }
     case 2: {
@@ -41,11 +41,15 @@ void errorHandling(int errCode ,char command[]) {
         break;
     }
     case 3: {
-        printf("Pipe could not be initialized\n");
+        printf("File is empty!\n");
+        break;
+    }
+    case 4: {
+        printf("File does not exists\n");
         break;
     }
     default: {
-        printf("could not resolve the error\n");
+        printf("Could not resolve the error\n");
         break;
     }
    }
