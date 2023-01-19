@@ -151,6 +151,10 @@ int processString(char* str, char** parsed, char** parsedpipe,char arr[10][100],
         return 3;
     }
 
+    if (access(str, F_OK) == 0) {
+        return 4;
+    }
+
     char* strpiped[2];
     int piped = 0;
   

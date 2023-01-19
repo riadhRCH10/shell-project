@@ -1,5 +1,3 @@
-
-// C Program to design a shell in Linux
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -12,7 +10,7 @@
 #include"libs/errorHandler.h"
 #include"libs/executor.h"
   
-#include"libs/parser.h" 
+#include"libs/parser.h"
 
 #define MAXCOM 1000 // max number of letters to be supported
 #define MAXLIST 100 // max number of commands to be supported
@@ -108,6 +106,10 @@ int main()
                 printf("adding %s to hostory", history_entry);
                 add_history(history_entry);
             }
+        }
+
+        if (execFlag == 4) {
+            batchMode(inputString);
         }
         
             
