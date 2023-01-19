@@ -15,5 +15,5 @@ chmod 744 shell-project
 
 # Running the project
 
-run 'make' to start the project
+run 'make' in the shell-project directory to start the project
 run 'make clean' to clean the project after finishing
