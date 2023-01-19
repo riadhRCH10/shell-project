@@ -49,7 +49,9 @@ int parseMultiple(char* str, char arr[10][100],int *arrsize, char delimiter[1]) 
     {
         strcpy(arr[i], strsep(&str, delimiter));
         i++;
-        str++;
+        if ( strcmp(delimiter,";") != 0 ) {
+            str++;
+        }
     }
     strcpy(arr[i], str);
     *arrsize = i;
